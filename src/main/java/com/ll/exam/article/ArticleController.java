@@ -23,4 +23,8 @@ public class ArticleController {
 
         rq.view("usr/article/list");
     }
+
+    public void showWrite(Rq rq) throws IOException, ServletException {
+        rq.view("usr/article/write");
+    }
 }
