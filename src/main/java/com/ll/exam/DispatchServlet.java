@@ -13,23 +13,37 @@ import java.io.IOException;
 @WebServlet("/usr/*")
 public class DispatchServlet extends HttpServlet {
     @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doGet(req, resp);
+    }
+
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Rq rq = new Rq(req, resp);
 
         MemberController memberController = new MemberController();
         ArticleController articleController = new ArticleController();
 
-        // 요청 URI(query string 제외한 부분까지)
-        String url = req.getRequestURI();
-        switch (url) {
-            case "/usr/article/list/free":
-                articleController.showList(rq);
+        // 요청 메서드(get, post)에 따라 구분
+        switch (rq.getMethod()) {
+            case "GET":
+                switch (rq.getPath()) {
+                    case "/usr/article/list/free":
+                        articleController.showList(rq);
+                        break;
+                    case "/usr/article/write/free":
+                        articleController.showWrite(rq);
+                        break;
+                    case "/usr/member/login":
+                        memberController.showLogin(rq);
+                        break;
+                }
                 break;
-            case "/usr/article/write/free":
-                articleController.showWrite(rq);
-                break;
-            case "/usr/member/login":
-                memberController.showLogin(rq);
+            case "POST":
+                switch (rq.getPath()) {
+                    case "/usr/article/write/free":
+                        articleController.doWrite(rq);
+                }
                 break;
         }
     }

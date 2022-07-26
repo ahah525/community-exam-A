@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ArticleController {
+    // 게시물 조회
     public void showList(Rq rq) throws IOException, ServletException {
         List<ArticleDto> articleDtos = new ArrayList<>();
 
@@ -24,7 +25,18 @@ public class ArticleController {
         rq.view("usr/article/list");
     }
 
+    // 게시물 작성폼
     public void showWrite(Rq rq) throws IOException, ServletException {
         rq.view("usr/article/write");
+    }
+
+    // 게시물 등록
+    public void doWrite(Rq rq) throws ServletException, IOException {
+        // 요청에서 온 값 읽어서 response
+        String title = rq.getParam("title", "");
+        String body = rq.getParam("body", "");
+
+        rq.appendBody("<div>title : %s</div>".formatted(title));
+        rq.appendBody("<div>body : %s</div>".formatted(body));
     }
 }

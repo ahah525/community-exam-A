@@ -22,9 +22,19 @@ public class Rq {
         this.resp = resp;
     }
 
-    // 파라미터 값을 반환하는 메서드
+    // 파라미터 값을 string으로 반환하는 메서드
+    public String getParam(String param, String defaultValue) {
+        String value = req.getParameter(param);
+        // null이거나 비었으면 디폴트값 반환
+        if(value == null || value.trim().length() == 0)
+            return defaultValue;
+        return value;
+    }
+
+    // 파라미터 값을 int로 반환하는 메서드
     public int getIntParam(String param, int defaultValue) {
         String value = req.getParameter(param);
+        // null이거나 비었으면 디폴트값 반환
         if(value == null)
             return defaultValue;
         return Integer.parseInt(value);
@@ -44,6 +54,16 @@ public class Rq {
         // 나머지 작업은 jsp에 토스
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/jsp/" + path + ".jsp");
         requestDispatcher.forward(req, resp);
+    }
+
+    // request URI 반환(query string 제외한 부분까지)
+    public String getPath() {
+        return req.getRequestURI();
+    }
+
+    // request method 반환
+    public String getMethod() {
+        return req.getMethod();
     }
 }
 
