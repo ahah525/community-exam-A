@@ -9,6 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ArticleController {
+    private ArticleService articleService;
+
+    public ArticleController() {
+        articleService = new ArticleService();
+    }
+
     // 게시물 조회
     public void showList(Rq rq) throws IOException, ServletException {
         List<ArticleDto> articleDtos = new ArrayList<>();
@@ -36,7 +42,8 @@ public class ArticleController {
         String title = rq.getParam("title", "");
         String body = rq.getParam("body", "");
 
-        rq.appendBody("<div>title : %s</div>".formatted(title));
-        rq.appendBody("<div>body : %s</div>".formatted(body));
+        // 생성된 게시물의 id
+        long id = articleService.write(title, body);
+        rq.appendBody("%d번 게시물이 생성되었습니다.".formatted(id));
     }
 }
