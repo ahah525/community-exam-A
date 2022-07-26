@@ -42,8 +42,20 @@ public class ArticleController {
 
     // 게시물 상세화면 조회
     public void showDetail(Rq rq) throws ServletException, IOException {
-        long id = 1;
+        long id = rq.getLongPathValueByIndex(1, 0);
+
+        // 게시물 번호가 입력되지 않았을 경우 예외처리
+        if (id == 0) {
+            rq.appendBody("번호를 입력해주세요.");
+            return;
+        }
+
         ArticleDto articleDto = articleService.findById(id);
+        // 해당 id에 대한 게시글이 없을 경우 예외처리
+        if (articleDto == null) {
+            rq.appendBody("해당 게시글은 존재하지 않습니다.");
+            return;
+        }
 
         rq.setAttr("article", articleDto);
         rq.view("usr/article/detail");
