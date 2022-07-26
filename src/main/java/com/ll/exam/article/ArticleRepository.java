@@ -23,4 +23,8 @@ public class ArticleRepository {
 
         return lastId;
     }
+
+    public List<ArticleDto> findAll() {
+        return articles;
+    }
 }
