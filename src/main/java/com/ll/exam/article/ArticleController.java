@@ -39,4 +39,13 @@ public class ArticleController {
         long id = articleService.write(title, body);
         rq.appendBody("%d번 게시물이 생성되었습니다.".formatted(id));
     }
+
+    // 게시물 상세화면 조회
+    public void showDetail(Rq rq) throws ServletException, IOException {
+        long id = 1;
+        ArticleDto articleDto = articleService.findById(id);
+
+        rq.setAttr("article", articleDto);
+        rq.view("usr/article/detail");
+    }
 }
