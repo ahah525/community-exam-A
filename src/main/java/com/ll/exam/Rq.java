@@ -61,6 +61,13 @@ public class Rq {
         return req.getRequestURI();
     }
 
+    // Path Variable을 제외한 URI 반환
+    public String getActionPath() {
+        // /기준으로 분리해서 3개 값만 이어붙여서 만듦
+        String[] bits = req.getRequestURI().split("/");
+        return "/%s/%s/%s".formatted(bits[1], bits[2], bits[3]);
+    }
+
     // request method 반환
     public String getMethod() {
         return req.getMethod();
