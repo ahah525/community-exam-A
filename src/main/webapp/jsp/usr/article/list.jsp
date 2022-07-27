@@ -3,7 +3,7 @@
 <%@ page import="com.ll.exam.article.dto.ArticleDto" %>
 
 <%
-    // request에서 게시믈 리스트 가져오기
+    // request에서 게시물 리스트 가져오기
     List<ArticleDto> articles = (List<ArticleDto>) request.getAttribute("articles");
 %>
 <%@ include file="../common/header.jspf"%>
@@ -33,3 +33,5 @@
         </ul>
     </div>
 </section>
+
+<%@ include file="../common/footer.jspf"%>
