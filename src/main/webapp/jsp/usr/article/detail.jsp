@@ -2,20 +2,29 @@
 <%@ page import="com.ll.exam.article.dto.ArticleDto" %>
 
 <%
-    ArticleDto article = (ArticleDto) request.getAttribute("article");
+    ArticleDto article = (ArticleDto)request.getAttribute("article");
 %>
 
-<h1>게시물 상세페이지</h1>
-<div>
-    <% if ( article != null ) { %>
-    <div>
-        ID : <%=article.getId()%>
+<%@ include file="../common/header.jspf"%>
+
+<section>
+    <div class="container px-3 mx-auto">
+        <h1 class="font-bold text-lg">게시물 상세페이지</h1>
+
+        <div>
+            <% if ( article != null ) { %>
+            <div>
+                ID : <%=article.getId()%>
+            </div>
+            <div>
+                TITLE : <%=article.getTitle()%>
+            </div>
+            <div>
+                BODY : <%=article.getBody()%>
+            </div>
+            <% } %>
+        </div>
     </div>
-    <div>
-        TITLE : <%=article.getTitle()%>
-    </div>
-    <div>
-        BODY : <%=article.getBody()%>
-    </div>
-    <% } %>
-</div>
+</section>
+
+<%@ include file="../common/footer.jspf"%>
