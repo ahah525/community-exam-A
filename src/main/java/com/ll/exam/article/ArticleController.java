@@ -75,12 +75,13 @@ public class ArticleController {
         ArticleDto articleDto = articleService.findById(id);
         // 해당 id에 대한 게시글 없을 경우 예외처리
         if (articleDto == null) {
-            rq.appendBody("해당 게시글은 존재하지 않아 삭제할 수 없습니다.");
+            rq.appendBody("해당 게시글은 존재하지 않습니다.");
             return;
         }
-
-        rq.appendBody("%d번 게시물이 삭제되었습니다.".formatted(id));
         articleService.delete(id);
+
+        rq.appendBody("<di>%d번 게시물이 삭제되었습니다.</div>".formatted(id));
+        rq.appendBody("<div><a href=\"/usr/article/list/free\">리스트로 이동</a></div>");
     }
 
     // 게시물 수정폼

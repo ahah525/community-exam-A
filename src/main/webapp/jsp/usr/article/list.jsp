@@ -27,7 +27,8 @@
                     <%=article.getTitle()%>
                 </a>
                 <a class="w-[100px] hover:underline hover:text-[red]" href="/usr/article/modify/free/<%=article.getId()%>">수정</a>
-                <a class="w-[100px] hover:underline hover:text-[red]" href="/usr/article/delete/free/<%=article.getId()%>">삭제</a>
+                <!-- 사용자가 취소 click -> return false -> href 이동X -->
+                <a onclick="if(!confirm('해당 게시글을 삭제하시겠습니까?')) return false;" class="w-[100px] hover:underline hover:text-[red]" href="/usr/article/delete/free/<%=article.getId()%>">삭제</a>
             </li>
             <% } %>
         </ul>
