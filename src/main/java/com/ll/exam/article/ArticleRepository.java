@@ -4,6 +4,7 @@ import com.ll.exam.article.dto.ArticleDto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class ArticleRepository {
     private static List<ArticleDto> articles;
@@ -13,10 +14,22 @@ public class ArticleRepository {
     static {
         articles = new ArrayList<>();
         lastId = 0;
+
+        makeTestData();
+    }
+
+    // 테스트 데이터 세팅(자동으로 값 입력해놓기 위해)
+    private static void makeTestData() {
+        // 10개 게시글 저장
+        IntStream.rangeClosed(1, 10).forEach(id -> {
+            String title = "제목%d".formatted(id);
+            String body = "내용%d".formatted(id);
+            write(title, body);
+        });
     }
 
     // 등록된 게시물의 id 반환
-    public long write(String title, String body) {
+    public static long write(String title, String body) {
         // 리스트에 등록
         ArticleDto articleDto = new ArticleDto(++lastId, title, body);
         articles.add(articleDto);
@@ -24,11 +37,11 @@ public class ArticleRepository {
         return lastId;
     }
 
-    public List<ArticleDto> findAll() {
+    public static List<ArticleDto> findAll() {
         return articles;
     }
 
-    public ArticleDto findById(long id) {
+    public static ArticleDto findById(long id) {
         for (ArticleDto articleDto : articles) {
             if(articleDto.getId() == id)
                 return articleDto;
