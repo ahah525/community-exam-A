@@ -6,17 +6,30 @@
     // request에서 게시믈 리스트 가져오기
     List<ArticleDto> articles = (List<ArticleDto>) request.getAttribute("articles");
 %>
+<script src="https://cdn.tailwindcss.com"></script>
 
-<h1>게시물 리스트</h1>
-
-<ul>
-    <% for(ArticleDto article : articles) { %>
-    <li>
-        <a href="/usr/article/detail/free/<%=article.getId()%>">
-            <%=article.getId()%>. <%=article.getTitle()%>
-        </a>
-        <button type="button" onclick="location.href='/usr/article/modify/free/<%=article.getId()%>'">수정</button>
-        <button type="button" onclick="location.href='/usr/article/delete/free/<%=article.getId()%>'">삭제</button>
-    </li>
-    <% } %>
-</ul>
+<!-- 보통 섹션으로 구분함 -->
+<section>
+    <!-- container: -->
+    <!-- -->
+    <div class="container px-3 mx-auto">
+        <!-- text-lg: font-size, line-height 설정 -->
+        <h1 class="font-bold text-lg">게시물 리스트</h1>
+        <!-- mt: margin-top -->
+        <ul class="mt-5">
+            <% for(ArticleDto article : articles) { %>
+            <li class="flex">
+                <a class="w-[40px] hover:underline hover:text-[red]" href="/usr/article/detail/free/<%=article.getId()%>">
+                    <%=article.getId()%>
+                </a>
+                <!-- flex-grow:  -->
+                <a class="flex-grow hover:underline hover:text-[red]" href="/usr/article/detail/free/<%=article.getId()%>">
+                    <%=article.getTitle()%>
+                </a>
+                <a class="w-[100px] hover:underline hover:text-[red]" href="/usr/article/modify/free/<%=article.getId()%>">수정</a>
+                <a class="w-[100px] hover:underline hover:text-[red]" href="/usr/article/delete/free/<%=article.getId()%>">삭제</a>
+            </li>
+            <% } %>
+        </ul>
+    </div>
+</section>
