@@ -10,8 +10,7 @@
 
 <!-- 보통 섹션으로 구분함 -->
 <section>
-    <!-- container: -->
-    <!-- -->
+    <!-- container: 반응형, 최대너비가 지정되어있어 무한정 커지는 걸 막아줌 -->
     <div class="container px-3 mx-auto">
         <!-- text-lg: font-size, line-height 설정 -->
         <h1 class="font-bold text-lg">게시물 리스트</h1>

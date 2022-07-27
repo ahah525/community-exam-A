@@ -106,7 +106,7 @@ public class ArticleController {
         rq.view("usr/article/modify");
     }
 
-    public void doModify(Rq rq) {
+    public void doModify(Rq rq) throws IOException {
         //free/1
         long id = rq.getLongPathValueByIndex(1, 0);
 
@@ -114,5 +114,8 @@ public class ArticleController {
         String title = rq.getParam("title", "");
         String body = rq.getParam("body", "");
         articleService.modify(id, title, body);
+
+        rq.appendBody("<di>%d번 게시물이 수정되었습니다.</div>".formatted(id));
+        rq.appendBody("<div><a href=\"/usr/article/list/free/%d\">해당 글로 이동</a></div>".formatted(id));
     }
 }
