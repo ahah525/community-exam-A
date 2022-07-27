@@ -35,4 +35,9 @@ public class ArticleRepository {
         }
         return null;
     }
+
+    public void delete(long id) {
+        ArticleDto articleDto = findById(id);
+        articles.remove(articleDto);
+    }
 }
