@@ -81,4 +81,15 @@ public class ArticleController {
 
         articleService.delete(id);
     }
+
+    // 게시물 수정폼
+    public void showModifyForm(Rq rq) throws ServletException, IOException {
+        //free/1
+        long id = rq.getLongPathValueByIndex(1, 0);
+        ArticleDto articleDto = articleService.findById(id);
+
+        rq.setAttr("article", articleDto);
+
+        rq.view("usr/article/modify");
+    }
 }
