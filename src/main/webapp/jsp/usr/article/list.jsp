@@ -6,7 +6,7 @@
     // request에서 게시믈 리스트 가져오기
     List<ArticleDto> articles = (List<ArticleDto>) request.getAttribute("articles");
 %>
-<script src="https://cdn.tailwindcss.com"></script>
+<%@ include file="../common/header.jspf"%>
 
 <!-- 보통 섹션으로 구분함 -->
 <section>
