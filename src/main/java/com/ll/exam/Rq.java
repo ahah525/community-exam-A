@@ -1,6 +1,5 @@
 package com.ll.exam;
 
-import com.ll.exam.article.dto.ArticleDto;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,7 +7,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 
 public class Rq {
     private final HttpServletRequest req;
@@ -40,9 +38,17 @@ public class Rq {
         return Integer.parseInt(value);
     }
 
-    // ResponseBody에 body를 담는 메서드
-    public void appendBody(String body) throws IOException {
-        resp.getWriter().append(body);
+    // 기존 appendBody
+    public void println(String str) {
+        print(str + "\n");
+    }
+
+    public void print(String str) {
+        try {
+            resp.getWriter().append(str);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void setAttr(String name, Object value) {
@@ -97,6 +103,41 @@ public class Rq {
         } catch (ArrayIndexOutOfBoundsException e) {
             return defaultValue;
         }
+    }
+
+    // 요청 실패했을 때 오류 메시지 alert -> 이전 페이지로 이동
+    public void historyBack(String msg) {
+        if (msg != null && msg.trim().length() > 0) {
+            println("""
+                    <script>
+                    alert("%s");
+                    </script>
+                    """.formatted(msg));
+        }
+
+        println("""
+                <script>
+                history.back();
+                </script>
+                """);
+    }
+
+    // 요청 성공 메시지 alert -> 해당 URI로 replace
+    public void replace(String uri, String msg) {
+
+        if (msg != null && msg.trim().length() > 0) {
+            println("""
+                    <script>
+                    alert("%s");
+                    </script>
+                    """.formatted(msg));
+        }
+
+        println("""
+                <script>
+                location.replace("%s");
+                </script>
+                """.formatted(uri));
     }
 }
 

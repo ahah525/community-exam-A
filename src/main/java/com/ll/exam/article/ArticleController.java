@@ -5,7 +5,6 @@ import com.ll.exam.article.dto.ArticleDto;
 import jakarta.servlet.ServletException;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ArticleController {
@@ -37,7 +36,8 @@ public class ArticleController {
 
         // 생성된 게시물의 id
         long id = articleService.write(title, body);
-        rq.appendBody("%d번 게시물이 생성되었습니다.".formatted(id));
+        // 게시물 생성 문구 출력 후 게시물 리스트 페이지로 이동
+        rq.replace("/usr/article/list/free", "%d번 게시물이 생성되었습니다.".formatted(id));
     }
 
     // 게시물 상세화면 조회
@@ -47,14 +47,14 @@ public class ArticleController {
 
         // 게시물 번호가 입력되지 않았을 경우 예외처리
         if (id == 0) {
-            rq.appendBody("번호를 입력해주세요.");
+            rq.historyBack("번호를 입력해주세요.");
             return;
         }
 
         ArticleDto articleDto = articleService.findById(id);
         // 해당 id에 대한 게시글이 없을 경우 예외처리
         if (articleDto == null) {
-            rq.appendBody("해당 게시글은 존재하지 않습니다.");
+            rq.historyBack("해당 게시글은 존재하지 않습니다.");
             return;
         }
 
@@ -68,20 +68,20 @@ public class ArticleController {
         long id = rq.getLongPathValueByIndex(1, 0);
 
         if (id == 0) {
-            rq.appendBody("번호를 입력해주세요.");
+            rq.historyBack("번호를 입력해주세요.");
             return ;
         }
 
         ArticleDto articleDto = articleService.findById(id);
         // 해당 id에 대한 게시글 없을 경우 예외처리
         if (articleDto == null) {
-            rq.appendBody("해당 게시글은 존재하지 않습니다.");
+            rq.historyBack("해당 게시글은 존재하지 않습니다.");
             return;
         }
         articleService.delete(id);
 
-        rq.appendBody("<di>%d번 게시물이 삭제되었습니다.</div>".formatted(id));
-        rq.appendBody("<div><a href=\"/usr/article/list/free\">리스트로 이동</a></div>");
+        // 게시글 삭제 문구 출력 후 리스트 페이지 이동
+        rq.replace("/usr/article/list/free", "%d번 게시물이 삭제되었습니다.".formatted(id));
     }
 
     // 게시물 수정폼
@@ -90,7 +90,7 @@ public class ArticleController {
         long id = rq.getLongPathValueByIndex(1, 0);
 
         if (id == 0) {
-            rq.appendBody("번호를 입력해주세요.");
+            rq.historyBack("번호를 입력해주세요.");
             return ;
         }
 
@@ -98,7 +98,7 @@ public class ArticleController {
 
         // 해당 id에 대한 게시글 없을 경우 예외처리
         if (articleDto == null) {
-            rq.appendBody("해당 게시글은 존재하지 않습니다.");
+            rq.historyBack("해당 게시글은 존재하지 않습니다.");
             return;
         }
 
@@ -110,12 +110,25 @@ public class ArticleController {
         //free/1
         long id = rq.getLongPathValueByIndex(1, 0);
 
+        if (id == 0) {
+            rq.historyBack("번호를 입력해주세요.");
+            return ;
+        }
+
+        ArticleDto articleDto = articleService.findById(id);
+
+        // 해당 id에 대한 게시글 없을 경우 예외처리
+        if (articleDto == null) {
+            rq.historyBack("해당 게시글은 존재하지 않습니다.");
+            return;
+        }
+
         // 요청에서 온 값 읽어서 response
         String title = rq.getParam("title", "");
         String body = rq.getParam("body", "");
         articleService.modify(id, title, body);
 
-        rq.appendBody("<di>%d번 게시물이 수정되었습니다.</div>".formatted(id));
-        rq.appendBody("<div><a href=\"/usr/article/list/free/%d\">해당 글로 이동</a></div>".formatted(id));
+        // 게시글 수정 문구 출력 후 리스트 페이지 이동
+        rq.replace("/usr/article/list/free", "%d번 게시물이 수정되었습니다.".formatted(id));
     }
 }
