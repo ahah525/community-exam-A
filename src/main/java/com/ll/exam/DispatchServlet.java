@@ -12,6 +12,7 @@ import java.io.IOException;
 
 @WebServlet("/usr/*")
 public class DispatchServlet extends HttpServlet {
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //        doGet(req, resp);
@@ -25,9 +26,6 @@ public class DispatchServlet extends HttpServlet {
                 articleController.doWrite(rq);
             case "/usr/article/modify":
                 articleController.doModify(rq);
-                break;
-            case "/usr/article/delete":
-                articleController.doDelete(rq);
                 break;
         }
     }
@@ -56,7 +54,9 @@ public class DispatchServlet extends HttpServlet {
             case "/usr/member/login":
                 memberController.showLogin(rq);
                 break;
-
+            case "/usr/article/delete":
+                articleController.doDelete(rq);
+                break;
         }
     }
 }

@@ -34,6 +34,16 @@ public class ArticleController {
         String title = rq.getParam("title", "");
         String body = rq.getParam("body", "");
 
+        if (title.length() == 0) {
+            rq.historyBack("제목을 입력해주세요.");
+            return;
+        }
+
+        if (body.length() == 0) {
+            rq.historyBack("내용을 입력해주세요.");
+            return;
+        }
+
         // 생성된 게시물의 id
         long id = articleService.write(title, body);
         // 게시물 생성 문구 출력 후 게시물 리스트 페이지로 이동
