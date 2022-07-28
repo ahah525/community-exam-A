@@ -14,7 +14,22 @@ import java.io.IOException;
 public class DispatchServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doGet(req, resp);
+//        doGet(req, resp);
+        Rq rq = new Rq(req, resp);
+
+        MemberController memberController = new MemberController();
+        ArticleController articleController = new ArticleController();
+
+        switch (rq.getActionPath()) {
+            case "/usr/article/write":
+                articleController.doWrite(rq);
+            case "/usr/article/modify":
+                articleController.doModify(rq);
+                break;
+            case "/usr/article/delete":
+                articleController.doDelete(rq);
+                break;
+        }
     }
 
     @Override
@@ -25,38 +40,23 @@ public class DispatchServlet extends HttpServlet {
         ArticleController articleController = new ArticleController();
 
         // 요청 메서드(get, post)에 따라 구분
-        switch (rq.getMethod()) {
-            case "GET":
-                switch (rq.getActionPath()) {
-                    case "/usr/article/list":
-                        articleController.showList(rq);
-                        break;
-                    case "/usr/article/detail":
-                        articleController.showDetail(rq);
-                        break;
-                    case "/usr/article/write":
-                        articleController.showWrite(rq);
-                        break;
-                    case "/usr/article/modify":
-                        articleController.showModifyForm(rq);
-                        break;
-                    case "/usr/member/login":
-                        memberController.showLogin(rq);
-                        break;
-                    case "/usr/article/delete":
-                        articleController.doDelete(rq);
-                        break;
-                }
+        switch (rq.getActionPath()) {
+            case "/usr/article/list":
+                articleController.showList(rq);
                 break;
-            case "POST":
-                switch (rq.getActionPath()) {
-                    case "/usr/article/write":
-                        articleController.doWrite(rq);
-                    case "/usr/article/modify":
-                        articleController.doModify(rq);
-                        break;
-                }
+            case "/usr/article/detail":
+                articleController.showDetail(rq);
                 break;
+            case "/usr/article/write":
+                articleController.showWrite(rq);
+                break;
+            case "/usr/article/modify":
+                articleController.showModifyForm(rq);
+                break;
+            case "/usr/member/login":
+                memberController.showLogin(rq);
+                break;
+
         }
     }
 }
